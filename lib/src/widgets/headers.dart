@@ -221,3 +221,51 @@ class _HeaderCurvoPainter extends CustomPainter {
   @override
   bool shouldRebuildSemantics(_HeaderCurvoPainter oldDelegate) => false;
 }
+
+
+class HeaderWave extends StatelessWidget {
+  const HeaderWave({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      // color:const Color(0xff615AAB),
+      child: CustomPaint(
+        painter: _HeaderWavePainter()
+      ),
+    );
+  }
+}
+
+class _HeaderWavePainter extends CustomPainter {
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+    final paint = Paint();
+
+    //propiedades
+    paint.color = const Color(0xff615AAB);
+    paint.style = PaintingStyle.fill;
+
+    //Dibujar con el lapiz y le path
+    final path = Path();
+
+    path.lineTo(0, size.height * 0.3);
+    path.quadraticBezierTo(size.width * 0.25, size.height * 0.36, size.width * 0.5, size.height * 0.3);
+    path.quadraticBezierTo(size.width * 0.75, size.height * 0.24, size.width, size.height * 0.3);
+    path.lineTo(size.width, 0);
+    path.lineTo(0, 0);
+
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(_HeaderWavePainter oldDelegate) => true;
+
+  @override
+  bool shouldRebuildSemantics(_HeaderWavePainter oldDelegate) => false;
+}
