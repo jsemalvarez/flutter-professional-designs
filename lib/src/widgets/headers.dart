@@ -78,3 +78,50 @@ class _HeaderDiagonalPainter extends CustomPainter {
   @override
   bool shouldRebuildSemantics(_HeaderDiagonalPainter oldDelegate) => false;
 }
+
+
+class HeaderTrinagular extends StatelessWidget {
+  const HeaderTrinagular({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      // color:const Color(0xff615AAB),
+      child: CustomPaint(
+        painter: _HeaderTrinagularPainter()
+      ),
+    );
+  }
+}
+
+class _HeaderTrinagularPainter extends CustomPainter {
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+    final paint = Paint();
+
+    //propiedades
+    paint.color = const Color(0xff615AAB);
+    paint.style = PaintingStyle.fill;
+
+    //Dibujar con el lapiz y le path
+    final path = Path();
+
+    // path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+    path.lineTo(0, 0);
+
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(_HeaderTrinagularPainter oldDelegate) => true;
+
+  @override
+  bool shouldRebuildSemantics(_HeaderTrinagularPainter oldDelegate) => false;
+}
