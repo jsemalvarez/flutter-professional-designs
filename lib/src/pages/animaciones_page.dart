@@ -29,6 +29,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
   late Animation<double> rotation;
   late Animation<double> opacidad;
   late Animation<double> moverDerecha;
+  late Animation<double> agrandar;
 
   @override
   void initState() {
@@ -63,11 +64,14 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
 
     moverDerecha = Tween(begin: 0.1, end: 200.1).animate(controller);
 
+    agrandar = Tween(begin: 0.0, end: 2.0).animate(controller);
+
     controller.addListener(() {
       
       if( controller.status == AnimationStatus.completed){
         // controller.reverse();
-        controller.reset();
+        controller.repeat();
+        // controller.reset();
       }
       // else if( controller.status == AnimationStatus.dismissed){
       //   controller.forward();
@@ -104,7 +108,10 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
             // se contruye una sola vez y se pasa por referencia
             child: Opacity(
               opacity: opacidad.value,
-              child: child,
+              child: Transform.scale(
+                scale: agrandar.value,
+                child: child
+              ),
             ), 
           ),
         );
