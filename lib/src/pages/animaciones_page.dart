@@ -43,12 +43,16 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
       begin: 0.0,
       // end: 2.0
       end: 2 * Math.pi
-    ).animate(controller);
+    ).animate(
+      // controller
+      CurvedAnimation(parent: controller, curve: Curves.easeOut)
+    );
 
     controller.addListener(() {
       
       if( controller.status == AnimationStatus.completed){
-        controller.reverse();
+        // controller.reverse();
+        controller.reset();
       }
       // else if( controller.status == AnimationStatus.dismissed){
       //   controller.forward();
