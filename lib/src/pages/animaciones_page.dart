@@ -28,6 +28,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
   late AnimationController controller;
   late Animation<double> rotation;
   late Animation<double> opacidad;
+  late Animation<double> moverDerecha;
 
   @override
   void initState() {
@@ -60,11 +61,13 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
 
     );
 
+    moverDerecha = Tween(begin: 0.1, end: 200.1).animate(controller);
+
     controller.addListener(() {
       
       if( controller.status == AnimationStatus.completed){
         // controller.reverse();
-        // controller.reset();
+        controller.reset();
       }
       // else if( controller.status == AnimationStatus.dismissed){
       //   controller.forward();
@@ -93,14 +96,17 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
       animation: controller,
       child: const _Rectangulo(),
       builder: (BuildContext context, Widget? child) {
-        return Transform.rotate(
-          angle: rotation.value,
-          // child: const _Rectangulo(), // se constrye cada vez que se retorna
-          // se contruye una sola vez y se pasa por referencia
-          child: Opacity(
-            opacity: opacidad.value,
-            child: child,
-          ), 
+        return Transform.translate(
+          offset: Offset(moverDerecha.value,0),// x e y
+          child: Transform.rotate(
+            angle: rotation.value,
+            // child: const _Rectangulo(), // se constrye cada vez que se retorna
+            // se contruye una sola vez y se pasa por referencia
+            child: Opacity(
+              opacity: opacidad.value,
+              child: child,
+            ), 
+          ),
         );
       },
     );
