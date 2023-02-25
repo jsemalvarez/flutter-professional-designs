@@ -49,7 +49,16 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
       CurvedAnimation(parent: controller, curve: Curves.easeOut)
     );
 
-    opacidad = Tween( begin: 0.1, end: 1.0).animate(controller);
+    // opacidad = Tween( begin: 0.1, end: 1.0).animate(controller);
+    opacidad = Tween( begin: 0.1, end: 1.0).animate(
+      // CurvedAnimation(parent: controller, curve: Curves.easeOut)
+      CurvedAnimation(parent: controller, curve: const Interval(
+        0, // va de 0 a 1, toma un % del duration
+        0.25, 
+        curve: Curves.easeOut
+      ))
+
+    );
 
     controller.addListener(() {
       
