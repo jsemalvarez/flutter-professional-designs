@@ -94,8 +94,8 @@ class _RadialProgressPaint extends CustomPainter{
   void paint(Canvas canvas, Size size) {    
 
     final paint = Paint()
-      ..strokeWidth = 5
-      ..color = Colors.grey
+      ..strokeWidth = grosorSecundario
+      ..color = colorSecundario
       ..style = PaintingStyle.stroke;
 
     final center = Offset(size.width * 0.5, size.height * 0.5);
@@ -103,7 +103,7 @@ class _RadialProgressPaint extends CustomPainter{
     canvas.drawCircle(center, radius, paint);
 
     final paintArco = Paint()
-      ..strokeWidth = 10
+      ..strokeWidth = grosorPrimario
       ..color = colorPrimario
       ..style = PaintingStyle.stroke;
 
