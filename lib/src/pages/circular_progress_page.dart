@@ -10,17 +10,29 @@ class CircularProgessPage extends StatefulWidget {
 }
 
 class _CircularProgessPageState extends State<CircularProgessPage> {
+  double procentajeVisible = 10;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       body: Center(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon( Icons.add ),
+        onPressed: () {
+          procentajeVisible += 10;
+          if(procentajeVisible > 100){
+            procentajeVisible = 0;
+          }
+
+          setState(() {});
+        },
+      ),
+      body: Center(
         child: Container(
           padding: const EdgeInsets.all(5),
           height: 300,
           width: 300,
           color: Colors.red,
           child: CustomPaint(
-            painter: _RadialProgressPaint(procentajeVisible: 15)
+            painter: _RadialProgressPaint(procentajeVisible: procentajeVisible)
           ),
         )
       ),
