@@ -31,7 +31,10 @@ class _GraficasCircularesPageState extends State<GraficasCircularesPage> {
           width: 300,
           padding: const EdgeInsets.all(10),
           // color: Colors.red,
-          child: RadialProgress( porcentaje: porcentaje),
+          child: RadialProgress( 
+            porcentaje: porcentaje,
+            colorPrimario: Colors.purple,
+          ),
         ),
         // child: Text('$porcentaje %', style: const TextStyle(fontSize: 50.0),)
       ),

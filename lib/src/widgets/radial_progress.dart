@@ -4,9 +4,20 @@ import 'package:flutter/material.dart';
 
 class RadialProgress extends StatefulWidget {
 
-  final porcentaje;
+  final double porcentaje;
+  final Color colorPrimario;
+  final Color colorSecundario;
+  final double grosorPrimario;
+  final double grosorSecundario;
 
-  const RadialProgress({super.key, this.porcentaje});
+  const RadialProgress({
+    super.key,
+    required this.porcentaje, 
+    this.colorPrimario = Colors.blue,
+    this.colorSecundario = Colors.grey,
+    this.grosorPrimario = 10,
+    this.grosorSecundario = 4,
+  });
 
   @override
   State<RadialProgress> createState() => _RadialProgressState();
@@ -49,7 +60,11 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
           width: double.infinity,
           child: CustomPaint(
             painter: _RadialProgressPaint(
-              procentajeVisible: (widget.porcentaje - diferenciaAnimar) + (diferenciaAnimar * animationController.value)
+              procentajeVisible: (widget.porcentaje - diferenciaAnimar) + (diferenciaAnimar * animationController.value),
+              colorPrimario: widget.colorPrimario,
+              colorSecundario: widget.colorSecundario,
+              grosorPrimario: widget.grosorPrimario,
+              grosorSecundario: widget.grosorSecundario
             ) 
           ),
         );
@@ -62,8 +77,18 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
 class _RadialProgressPaint extends CustomPainter{
 
   final double procentajeVisible;
+  final Color colorPrimario;
+  final Color colorSecundario;
+  final double grosorPrimario;
+  final double grosorSecundario;
 
-  _RadialProgressPaint({ required this.procentajeVisible });
+  _RadialProgressPaint({ 
+    required this.procentajeVisible, 
+    required this.colorPrimario, 
+    required this.colorSecundario,
+    required this.grosorPrimario,
+    required this.grosorSecundario,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {    
@@ -79,7 +104,7 @@ class _RadialProgressPaint extends CustomPainter{
 
     final paintArco = Paint()
       ..strokeWidth = 10
-      ..color = Colors.pink
+      ..color = colorPrimario
       ..style = PaintingStyle.stroke;
 
     final arcAngle = 2 * pi * (procentajeVisible / 100);
