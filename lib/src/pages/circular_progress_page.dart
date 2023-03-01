@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -9,18 +10,49 @@ class CircularProgessPage extends StatefulWidget {
   State<CircularProgessPage> createState() => _CircularProgessPageState();
 }
 
-class _CircularProgessPageState extends State<CircularProgessPage> {
-  double procentajeVisible = 10;
+class _CircularProgessPageState extends State<CircularProgessPage> with SingleTickerProviderStateMixin {
+
+  late AnimationController animationController;
+
+  double procentajeVisible = 0.0;
+  double nuevoProcentajeVisible = 0.0;
+
+  @override
+  void initState() {
+
+    animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
+
+    animationController.addListener(() {
+
+      procentajeVisible = lerpDouble(procentajeVisible, nuevoProcentajeVisible, animationController.value)!;
+      setState(() {});
+
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon( Icons.add ),
         onPressed: () {
-          procentajeVisible += 10;
-          if(procentajeVisible > 100){
+
+          procentajeVisible = nuevoProcentajeVisible;
+          nuevoProcentajeVisible += 10;
+          if(nuevoProcentajeVisible > 100){
+            nuevoProcentajeVisible = 10;
             procentajeVisible = 0;
           }
+
+          // indicamos el momento el cual tiene que ejecutar el listener, que puede ser de 0 a 1
+          animationController.forward(from: 0.0);
 
           setState(() {});
         },
