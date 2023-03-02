@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PracticaPage extends StatelessWidget {
-  const PracticaPage({super.key});
+class AnimacionesTetoPage extends StatelessWidget {
+  const AnimacionesTetoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
