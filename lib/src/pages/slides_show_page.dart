@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 
 class SlidesShowPage extends StatelessWidget {
   const SlidesShowPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('SlidesShowPage'),
+        child: SvgPicture.asset('assets/svgs/slide-4.svg'),
       ),
     );
   }
