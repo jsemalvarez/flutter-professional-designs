@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:designs/src/models/slider_model.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SlidesShowPage extends StatelessWidget {
@@ -7,15 +10,18 @@ class SlidesShowPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: const [
-            Expanded(
-              child: _Slides()
-            ),
-            _Dots(),
-          ],
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => SliderModel(),
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            children: const [
+              Expanded(
+                child: _Slides()
+              ),
+              _Dots(),
+            ],
+          ),
         ),
       ),
     );
@@ -35,12 +41,15 @@ class _SlidesState extends State<_Slides> {
 
 @override
   void initState() {
+    super.initState();
+    
     pageViewController.addListener(() {
       
-      print('pagina actual: ${pageViewController.page}');
+      // print('pagina actual: ${pageViewController.page}');
+      // Actualizar el provider, sliderModel
+      Provider.of<SliderModel>(context, listen: false).currentPage = pageViewController.page!;
 
     });
-    super.initState();
   }
 
   @override
@@ -53,6 +62,7 @@ class _SlidesState extends State<_Slides> {
     return Container(
       // padding: const EdgeInsets.all(10),
       child: PageView( 
+        controller: pageViewController,
         children: const [
           _Slide(svg:'assets/svgs/slide-1.svg'),
           _Slide(svg:'assets/svgs/slide-2.svg'),
@@ -91,7 +101,7 @@ class _Dots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      color: Colors.red,
+      // color: Colors.red,
       child: Row( 
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
@@ -115,12 +125,15 @@ class _Dot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final pageViewIndex = Provider.of<SliderModel>(context).currentPage;
+
     return Container(
       height: 15,
       width: 15,
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: const BoxDecoration(
-        color: Colors.blue,
+      decoration: BoxDecoration(
+        color: (pageViewIndex == index) ? Colors.blue : Colors.grey,
         shape: BoxShape.circle
       ),
     );
