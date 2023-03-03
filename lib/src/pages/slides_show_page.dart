@@ -7,9 +7,16 @@ class SlidesShowPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: _Slides(),
+        child: Column(
+          children: const [
+            Expanded(
+              child: _Slides()
+            ),
+            _Dots(),
+          ],
+        ),
       ),
     );
   }
@@ -52,3 +59,44 @@ class _Slide extends StatelessWidget {
     );
   }
 }
+
+
+class _Dots extends StatelessWidget {
+  const _Dots({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70,
+      color: Colors.red,
+      child: Row( 
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          _Dot(),
+          _Dot(),
+          _Dot(),
+        ],
+      ),
+    );
+  }
+}
+
+class _Dot extends StatelessWidget {
+  const _Dot({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 15,
+      width: 15,
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: const BoxDecoration(
+        color: Colors.blue,
+        shape: BoxShape.circle
+      ),
+    );
+  }
+}
+
