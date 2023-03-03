@@ -7,7 +7,13 @@ import 'package:flutter_svg/svg.dart';
 
 
 class Slideshow extends StatelessWidget {
-  const Slideshow({super.key});
+
+  final List<Widget> slides;
+
+  const Slideshow({
+    super.key, 
+    required this.slides
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +21,11 @@ class Slideshow extends StatelessWidget {
       create: (BuildContext context) => SliderModel(),
       child: Center(
           child: Column(
-            children: const [
+            children: [
               Expanded(
-                child: _Slides()
+                child: _Slides(slides: slides,)
               ),
-              _Dots(),
+              const _Dots(),
             ],
           ),
         ),
@@ -29,7 +35,12 @@ class Slideshow extends StatelessWidget {
 
 
 class _Slides extends StatefulWidget {
-  const _Slides({super.key});
+
+  final List<Widget> slides;
+  const _Slides({
+    super.key, 
+    required this.slides
+  });
 
   @override
   State<_Slides> createState() => _SlidesState();
@@ -63,11 +74,12 @@ class _SlidesState extends State<_Slides> {
       // padding: const EdgeInsets.all(10),
       child: PageView( 
         controller: pageViewController,
-        children: const [
-          _Slide(svg:'assets/svgs/slide-1.svg'),
-          _Slide(svg:'assets/svgs/slide-2.svg'),
-          _Slide(svg:'assets/svgs/slide-3.svg'),
-        ],
+        // children: const [
+        //   _Slide(svg:'assets/svgs/slide-1.svg'),
+        //   _Slide(svg:'assets/svgs/slide-2.svg'),
+        //   _Slide(svg:'assets/svgs/slide-3.svg'),
+        // ],
+        children: widget.slides.map((slide) => _Slide(svg: slide,)).toList(),
       ),
     );
   }
@@ -75,7 +87,8 @@ class _SlidesState extends State<_Slides> {
 
 class _Slide extends StatelessWidget {
 
-  final String svg;
+  // final String svg;
+  final Widget svg;
 
   const _Slide({
     Key? key, 
@@ -88,7 +101,8 @@ class _Slide extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       padding: const EdgeInsets.all(30),
-      child: SvgPicture.asset(svg)
+      // child: SvgPicture.asset(svg)
+      child: svg
     );
   }
 }
