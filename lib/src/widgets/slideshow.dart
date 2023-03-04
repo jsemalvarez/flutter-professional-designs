@@ -9,26 +9,45 @@ import 'package:flutter_svg/svg.dart';
 class Slideshow extends StatelessWidget {
 
   final List<Widget> slides;
+  final bool puntosArriba;
+  final Color colorPrimario;
+  final Color colorSecundario;
 
   const Slideshow({
     super.key, 
-    required this.slides
+    required this.slides, 
+    this.puntosArriba = false,
+    this.colorPrimario = Colors.blue,
+    this.colorSecundario = Colors.grey,
   });
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) => SliderModel(),
-      child: Center(
-          child: Column(
-            children: [
-              Expanded(
-                child: _Slides(slides: slides,)
-              ),
-              _Dots(tatalsDots: slides.length),
-            ],
+      child: SafeArea(
+        child: Center(
+            child: Column(
+              children: [
+                if(puntosArriba) 
+                  _Dots(
+                    tatalsDots: slides.length,
+                    colorPrimario: colorPrimario,
+                    colorSecundario: colorSecundario,
+                  ),
+                Expanded(
+                  child: _Slides(slides: slides,)
+                ),
+                if(!puntosArriba) 
+                  _Dots(
+                    tatalsDots: slides.length,
+                    colorPrimario: colorPrimario,
+                    colorSecundario: colorSecundario,
+                  ),
+              ],
+            ),
           ),
-        ),
+      ),
     );
   }
 }
@@ -109,10 +128,16 @@ class _Slide extends StatelessWidget {
 
 
 class _Dots extends StatelessWidget {
-  final tatalsDots;
+
+  final int tatalsDots;
+  final Color colorPrimario;
+  final Color colorSecundario;
+
   const _Dots({
     super.key, 
-    this.tatalsDots
+    required this.tatalsDots, 
+    required this.colorPrimario, 
+    required this.colorSecundario
   });
 
   @override
@@ -122,7 +147,13 @@ class _Dots extends StatelessWidget {
       // color: Colors.red,
       child: Row( 
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(tatalsDots, (index) => _Dot(index: index)),
+        children: List.generate(tatalsDots, (index) {
+          return _Dot(
+            index: index,
+            colorPrimario: colorPrimario,
+            colorSecundario: colorSecundario,
+          );
+        }),
         // children: const [
         //   _Dot(index: 0),
         //   _Dot(index: 1),
@@ -136,10 +167,14 @@ class _Dots extends StatelessWidget {
 class _Dot extends StatelessWidget {
 
   final int index;
+  final Color colorPrimario;
+  final Color colorSecundario;
   
   const _Dot({
     Key? key, 
-    required this.index,
+    required this.index, 
+    required this.colorPrimario, 
+    required this.colorSecundario,
   }) : super(key: key);
 
   @override
@@ -153,7 +188,7 @@ class _Dot extends StatelessWidget {
       width: 15,
       margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: (pageViewIndex >= (index - 0.5 ) && pageViewIndex < (index + 0.5 )) ? Colors.blue : Colors.grey,
+        color: (pageViewIndex >= (index - 0.5 ) && pageViewIndex < (index + 0.5 )) ? colorPrimario : colorSecundario,
         shape: BoxShape.circle
       ), 
     );
