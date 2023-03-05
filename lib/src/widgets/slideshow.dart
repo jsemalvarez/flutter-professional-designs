@@ -12,6 +12,8 @@ class Slideshow extends StatelessWidget {
   final bool puntosArriba;
   final Color colorPrimario;
   final Color colorSecundario;
+  final double bulletPrimario;
+  final double bulletSecundario;
 
   const Slideshow({
     super.key, 
@@ -19,6 +21,8 @@ class Slideshow extends StatelessWidget {
     this.puntosArriba = false,
     this.colorPrimario = Colors.blue,
     this.colorSecundario = Colors.grey, 
+    this.bulletPrimario = 12, 
+    this.bulletSecundario = 12,
   });
 
   @override
@@ -32,6 +36,8 @@ class Slideshow extends StatelessWidget {
 
                 Provider.of<_SliderModel>(context).colorPrimario = colorPrimario;
                 Provider.of<_SliderModel>(context).colorSecundario = colorSecundario;
+                Provider.of<_SliderModel>(context).bulletPrimario = bulletPrimario;
+                Provider.of<_SliderModel>(context).bulletSecundario = bulletSecundario;
 
                 return _SetDataCNP(
                   puntosArriba: puntosArriba, 
@@ -210,14 +216,27 @@ class _Dot extends StatelessWidget {
     final pageViewIndex = Provider.of<_SliderModel>(context).currentPage;
     final colorPrimario = Provider.of<_SliderModel>(context).colorPrimario;
     final colorSecundario = Provider.of<_SliderModel>(context).colorSecundario;
+    final buletPrimario = Provider.of<_SliderModel>(context).bulletPrimario;
+    final buletSecundario = Provider.of<_SliderModel>(context).bulletSecundario;
+
+    double pixel;
+    Color color;
+
+    if(pageViewIndex >= (index - 0.5 ) && pageViewIndex < (index + 0.5 ) ){
+      color = colorPrimario;
+      pixel = buletPrimario;
+    }else{
+      color = colorSecundario;
+      pixel = buletSecundario;
+    }
 
     return AnimatedContainer(
       duration:const Duration(milliseconds: 200),
-      height: 15,
-      width: 15,
+      height: pixel,
+      width: pixel,
       margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: (pageViewIndex >= (index - 0.5 ) && pageViewIndex < (index + 0.5 )) ? colorPrimario : colorSecundario,
+        color: color,
         shape: BoxShape.circle
       ), 
     );
@@ -230,6 +249,8 @@ class _SliderModel with ChangeNotifier{
   double _currentPage = 0;
   Color _colorPrimario = Colors.blue;
   Color _colorSecundario = Colors.grey;
+  double _bulletPrimario = 12;
+  double _bulletSecundario = 12;
 
   double get currentPage => _currentPage;
 
@@ -249,6 +270,16 @@ class _SliderModel with ChangeNotifier{
   set colorSecundario(Color color){
     _colorSecundario = color;
     // notifyListeners();
+  }
+
+  double get bulletPrimario => _bulletPrimario;
+  set bulletPrimario(double valor){
+    _bulletPrimario = valor;
+  }
+
+  double get bulletSecundario => _bulletSecundario;
+  set bulletSecundario(double valor){
+    _bulletSecundario = valor;
   }
 }
 

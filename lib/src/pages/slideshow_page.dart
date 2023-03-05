@@ -13,6 +13,8 @@ class SlideshowPage extends StatelessWidget {
         puntosArriba: true,
         colorPrimario: Colors.red,
         colorSecundario: Colors.black54,
+        bulletPrimario: 25,
+        bulletSecundario: 12,
         slides: [
           SvgPicture.asset('assets/svgs/slide-1.svg'),
           SvgPicture.asset('assets/svgs/slide-2.svg'),
