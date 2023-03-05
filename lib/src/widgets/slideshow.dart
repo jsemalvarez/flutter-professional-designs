@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:designs/src/models/slider_model.dart';
+// import 'package:designs/src/models/slider_model.dart';
 
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 
 
 class Slideshow extends StatelessWidget {
@@ -18,36 +18,63 @@ class Slideshow extends StatelessWidget {
     required this.slides, 
     this.puntosArriba = false,
     this.colorPrimario = Colors.blue,
-    this.colorSecundario = Colors.grey,
+    this.colorSecundario = Colors.grey, 
   });
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => SliderModel(),
+      create: (BuildContext context) => _SliderModel(),
       child: SafeArea(
         child: Center(
-            child: Column(
-              children: [
-                if(puntosArriba) 
-                  _Dots(
-                    tatalsDots: slides.length,
-                    colorPrimario: colorPrimario,
-                    colorSecundario: colorSecundario,
-                  ),
-                Expanded(
-                  child: _Slides(slides: slides,)
-                ),
-                if(!puntosArriba) 
-                  _Dots(
-                    tatalsDots: slides.length,
-                    colorPrimario: colorPrimario,
-                    colorSecundario: colorSecundario,
-                  ),
-              ],
-            ),
+            child: Builder(
+              builder: (context) {
+
+                Provider.of<_SliderModel>(context).colorPrimario = colorPrimario;
+                Provider.of<_SliderModel>(context).colorSecundario = colorSecundario;
+
+                return _SetDataCNP(
+                  puntosArriba: puntosArriba, 
+                  slides: slides
+                );
+              },
+            )
           ),
       ),
+    );
+  }
+}
+
+class _SetDataCNP extends StatelessWidget {
+  const _SetDataCNP({
+    Key? key,
+    required this.puntosArriba,
+    required this.slides,
+  }) : super(key: key);
+
+  final bool puntosArriba;
+  final List<Widget> slides;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if(puntosArriba) 
+          _Dots(
+            tatalsDots: slides.length,
+            // colorPrimario: colorPrimario,
+            // colorSecundario: colorSecundario,
+          ),
+        Expanded(
+          child: _Slides(slides: slides,)
+        ),
+        if(!puntosArriba) 
+          _Dots(
+            tatalsDots: slides.length,
+            // colorPrimario: colorPrimario,
+            // colorSecundario: colorSecundario,
+          ),
+      ],
     );
   }
 }
@@ -77,7 +104,7 @@ class _SlidesState extends State<_Slides> {
       
       // print('pagina actual: ${pageViewController.page}');
       // Actualizar el provider, sliderModel
-      Provider.of<SliderModel>(context, listen: false).currentPage = pageViewController.page!;
+      Provider.of<_SliderModel>(context, listen: false).currentPage = pageViewController.page!;
 
     });
   }
@@ -130,14 +157,14 @@ class _Slide extends StatelessWidget {
 class _Dots extends StatelessWidget {
 
   final int tatalsDots;
-  final Color colorPrimario;
-  final Color colorSecundario;
+  // final Color colorPrimario;
+  // final Color colorSecundario;
 
   const _Dots({
     super.key, 
     required this.tatalsDots, 
-    required this.colorPrimario, 
-    required this.colorSecundario
+    // required this.colorPrimario, 
+    // required this.colorSecundario
   });
 
   @override
@@ -150,8 +177,8 @@ class _Dots extends StatelessWidget {
         children: List.generate(tatalsDots, (index) {
           return _Dot(
             index: index,
-            colorPrimario: colorPrimario,
-            colorSecundario: colorSecundario,
+            // colorPrimario: colorPrimario,
+            // colorSecundario: colorSecundario,
           );
         }),
         // children: const [
@@ -167,20 +194,22 @@ class _Dots extends StatelessWidget {
 class _Dot extends StatelessWidget {
 
   final int index;
-  final Color colorPrimario;
-  final Color colorSecundario;
+  // final Color colorPrimario;
+  // final Color colorSecundario;
   
   const _Dot({
     Key? key, 
     required this.index, 
-    required this.colorPrimario, 
-    required this.colorSecundario,
+    // required this.colorPrimario, 
+    // required this.colorSecundario,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final pageViewIndex = Provider.of<SliderModel>(context).currentPage;
+    final pageViewIndex = Provider.of<_SliderModel>(context).currentPage;
+    final colorPrimario = Provider.of<_SliderModel>(context).colorPrimario;
+    final colorSecundario = Provider.of<_SliderModel>(context).colorSecundario;
 
     return AnimatedContainer(
       duration:const Duration(milliseconds: 200),
@@ -192,6 +221,34 @@ class _Dot extends StatelessWidget {
         shape: BoxShape.circle
       ), 
     );
+  }
+}
+
+
+
+class _SliderModel with ChangeNotifier{
+  double _currentPage = 0;
+  Color _colorPrimario = Colors.blue;
+  Color _colorSecundario = Colors.grey;
+
+  double get currentPage => _currentPage;
+
+  set currentPage( double currentPage){
+    _currentPage = currentPage;
+    // print('currentPage: ${currentPage}');
+    notifyListeners();
+  }
+
+  Color get colorPrimario => _colorPrimario;
+  set colorPrimario(Color color){
+    _colorPrimario = color;
+    // notifyListeners();
+  }
+
+  Color get colorSecundario => _colorSecundario;
+  set colorSecundario(Color color){
+    _colorSecundario = color;
+    // notifyListeners();
   }
 }
 
