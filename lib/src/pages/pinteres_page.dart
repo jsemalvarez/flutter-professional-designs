@@ -65,9 +65,15 @@ class PinteresItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container( 
       height: extend,
-      color: Colors.blue,
+      decoration: const BoxDecoration(
+        color: Colors.blue,
+        borderRadius:  BorderRadius.all(Radius.circular(10))
+      ),
       child: Center(
-        child: Text('$index')
+        child: CircleAvatar(
+          backgroundColor: Colors.white,
+          child: Text('$index'),
+        )
       )
       );
   }
